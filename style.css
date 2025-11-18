@@ -1,0 +1,294 @@
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+body {
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    min-height: 100vh;
+    padding: 20px;
+}
+
+.container {
+    max-width: 1600px;
+    margin: 0 auto;
+    background: white;
+    border-radius: 12px;
+    padding: 30px;
+    box-shadow: 0 20px 60px rgba(0, 0, 0, 0.3);
+}
+
+h1 {
+    text-align: center;
+    color: #333;
+    margin-bottom: 30px;
+    font-size: 2.5em;
+    text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.1);
+}
+
+.main-content {
+    display: grid;
+    grid-template-columns: 400px 1fr;
+    gap: 30px;
+}
+
+/* Control Panel */
+.control-panel {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+}
+
+.control-panel h2 {
+    color: #444;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.control-group {
+    margin-bottom: 20px;
+}
+
+.control-group label {
+    display: block;
+    margin-bottom: 8px;
+    color: #555;
+    font-weight: 600;
+}
+
+.control-group input[type="number"],
+.control-group select {
+    width: 100%;
+    padding: 10px;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    font-size: 16px;
+    transition: border-color 0.3s;
+}
+
+.control-group input[type="number"]:focus,
+.control-group select:focus {
+    outline: none;
+    border-color: #667eea;
+}
+
+.solve-btn {
+    width: 100%;
+    padding: 15px;
+    background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
+    color: white;
+    border: none;
+    border-radius: 8px;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    margin: 20px 0;
+    transition: transform 0.2s, box-shadow 0.2s;
+}
+
+.solve-btn:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 5px 15px rgba(102, 126, 234, 0.4);
+}
+
+.solve-btn:active {
+    transform: translateY(0);
+}
+
+/* Solution Method */
+.solution-method {
+    margin-top: 25px;
+}
+
+.solution-method h3 {
+    color: #444;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+.radio-group {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.radio-group label {
+    display: flex;
+    align-items: center;
+    padding: 10px;
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+    cursor: pointer;
+    transition: all 0.3s;
+}
+
+.radio-group label:hover {
+    border-color: #667eea;
+    background: #f0f4ff;
+}
+
+.radio-group input[type="radio"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* Circuit Diagram */
+.circuit-diagram {
+    margin-top: 25px;
+}
+
+.circuit-diagram h3 {
+    color: #444;
+    margin-bottom: 15px;
+    font-size: 1.2em;
+}
+
+#circuitSvg {
+    background: white;
+    border: 2px solid #ddd;
+    border-radius: 6px;
+}
+
+/* Results Panel */
+.results-panel {
+    display: flex;
+    flex-direction: column;
+    gap: 25px;
+}
+
+.solution-display {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+}
+
+.solution-display h2 {
+    color: #444;
+    margin-bottom: 20px;
+    font-size: 1.5em;
+}
+
+.math-display {
+    background: white;
+    padding: 15px;
+    margin: 10px 0;
+    border-radius: 6px;
+    border-left: 4px solid #667eea;
+    font-family: 'Courier New', monospace;
+    font-size: 14px;
+    line-height: 1.6;
+    color: #333;
+}
+
+.math-display strong {
+    color: #667eea;
+}
+
+/* Graph Container */
+.graph-container {
+    background: #f8f9fa;
+    padding: 25px;
+    border-radius: 8px;
+    border: 2px solid #e0e0e0;
+}
+
+.graph-container h3 {
+    color: #444;
+    margin-bottom: 20px;
+    font-size: 1.3em;
+}
+
+#responseGraph {
+    width: 100%;
+    background: white;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+}
+
+/* Pole Controls */
+.pole-controls {
+    margin-top: 20px;
+    padding: 15px;
+    background: white;
+    border-radius: 6px;
+    border: 2px solid #ddd;
+}
+
+.pole-controls h4 {
+    color: #444;
+    margin-bottom: 15px;
+}
+
+.pole-controls label {
+    display: block;
+    padding: 8px;
+    margin: 8px 0;
+    cursor: pointer;
+    transition: background 0.3s;
+    border-radius: 4px;
+}
+
+.pole-controls label:hover {
+    background: #f0f4ff;
+}
+
+.pole-controls input[type="checkbox"] {
+    margin-right: 10px;
+    cursor: pointer;
+}
+
+/* Responsive Design */
+@media (max-width: 1200px) {
+    .main-content {
+        grid-template-columns: 1fr;
+    }
+}
+
+@media (max-width: 768px) {
+    .container {
+        padding: 15px;
+    }
+
+    h1 {
+        font-size: 1.8em;
+    }
+
+    .control-panel,
+    .results-panel {
+        padding: 15px;
+    }
+}
+
+/* SVG Styling */
+.svg-text {
+    font-family: Arial, sans-serif;
+    font-size: 14px;
+}
+
+.svg-component {
+    stroke: #333;
+    stroke-width: 2;
+    fill: none;
+}
+
+.svg-wire {
+    stroke: #333;
+    stroke-width: 2;
+    fill: none;
+}
+
+.svg-voltage-source {
+    stroke: #d32f2f;
+    stroke-width: 2;
+    fill: none;
+}
+
+.svg-label {
+    fill: #333;
+    font-weight: bold;
+}

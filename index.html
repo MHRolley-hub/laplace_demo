@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>RLC Circuit Laplace Transform Solver</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <h1>RLC Circuit Laplace Transform Solver</h1>
+
+        <div class="main-content">
+            <!-- Left Panel: Controls -->
+            <div class="control-panel">
+                <h2>Circuit Configuration</h2>
+
+                <div class="control-group">
+                    <label for="circuitType">Circuit Type:</label>
+                    <select id="circuitType">
+                        <option value="series">Series RLC</option>
+                        <option value="parallel">Parallel RLC</option>
+                    </select>
+                </div>
+
+                <div class="control-group">
+                    <label for="voltage">Voltage Source (V):</label>
+                    <input type="number" id="voltage" value="10" step="0.1">
+                </div>
+
+                <div class="control-group">
+                    <label for="resistance">Resistance (Ω):</label>
+                    <input type="number" id="resistance" value="100" step="1">
+                </div>
+
+                <div class="control-group">
+                    <label for="inductance">Inductance (mH):</label>
+                    <input type="number" id="inductance" value="100" step="1">
+                </div>
+
+                <div class="control-group">
+                    <label for="capacitance">Capacitance (μF):</label>
+                    <input type="number" id="capacitance" value="10" step="0.1">
+                </div>
+
+                <button id="solveBtn" class="solve-btn">Solve Circuit</button>
+
+                <div class="solution-method">
+                    <h3>Solution Method</h3>
+                    <div class="radio-group">
+                        <label>
+                            <input type="radio" name="method" value="partial_fractions" checked>
+                            Partial Fractions Decomposition
+                        </label>
+                        <label>
+                            <input type="radio" name="method" value="residue">
+                            Residue Method
+                        </label>
+                        <label>
+                            <input type="radio" name="method" value="convolution">
+                            Convolution Theorem
+                        </label>
+                        <label>
+                            <input type="radio" name="method" value="tables">
+                            Laplace Transform Tables
+                        </label>
+                    </div>
+                </div>
+
+                <div class="circuit-diagram">
+                    <h3>Circuit Diagram</h3>
+                    <svg id="circuitSvg" width="100%" height="250" viewBox="0 0 400 250"></svg>
+                </div>
+            </div>
+
+            <!-- Right Panel: Results -->
+            <div class="results-panel">
+                <div class="solution-display">
+                    <h2>Laplace Domain Solution</h2>
+                    <div id="transferFunction" class="math-display"></div>
+                    <div id="poles" class="math-display"></div>
+                    <div id="residues" class="math-display"></div>
+                    <div id="timeDomainSolution" class="math-display"></div>
+                </div>
+
+                <div class="graph-container">
+                    <h3>Time Domain Response</h3>
+                    <canvas id="responseGraph" width="800" height="400"></canvas>
+
+                    <div class="pole-controls">
+                        <h4>Individual Pole Contributions</h4>
+                        <label>
+                            <input type="checkbox" id="showPole1" checked>
+                            <span id="pole1Label">Pole 1</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" id="showPole2" checked>
+                            <span id="pole2Label">Pole 2</span>
+                        </label>
+                        <label>
+                            <input type="checkbox" id="showTotal" checked>
+                            <strong>Total Response</strong>
+                        </label>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="laplace-solver.js"></script>
+    <script src="circuit-drawer.js"></script>
+    <script src="graph-plotter.js"></script>
+    <script src="app.js"></script>
+</body>
+</html>
