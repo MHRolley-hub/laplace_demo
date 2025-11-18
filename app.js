@@ -8,6 +8,8 @@ class RLCApp {
         this.initializeElements();
         this.attachEventListeners();
         this.updateCircuit();
+        // Initial solve with default values
+        this.solveCircuit();
     }
 
     initializeElements() {
@@ -17,7 +19,18 @@ class RLCApp {
         this.resistanceInput = document.getElementById('resistance');
         this.inductanceInput = document.getElementById('inductance');
         this.capacitanceInput = document.getElementById('capacitance');
-        this.solveBtn = document.getElementById('solveBtn');
+
+        // Slider elements
+        this.voltageSlider = document.getElementById('voltageSlider');
+        this.resistanceSlider = document.getElementById('resistanceSlider');
+        this.inductanceSlider = document.getElementById('inductanceSlider');
+        this.capacitanceSlider = document.getElementById('capacitanceSlider');
+
+        // Value display elements
+        this.voltageValue = document.getElementById('voltageValue');
+        this.resistanceValue = document.getElementById('resistanceValue');
+        this.inductanceValue = document.getElementById('inductanceValue');
+        this.capacitanceValue = document.getElementById('capacitanceValue');
 
         // Method selection
         this.methodRadios = document.querySelectorAll('input[name="method"]');
@@ -42,18 +55,83 @@ class RLCApp {
         // Circuit type change
         this.circuitTypeSelect.addEventListener('change', () => {
             this.updateCircuit();
-        });
-
-        // Parameter changes - update circuit diagram
-        [this.voltageInput, this.resistanceInput, this.inductanceInput, this.capacitanceInput].forEach(input => {
-            input.addEventListener('input', () => {
-                this.updateCircuitDiagram();
-            });
-        });
-
-        // Solve button
-        this.solveBtn.addEventListener('click', () => {
             this.solveCircuit();
+        });
+
+        // Voltage slider and input sync
+        this.voltageSlider.addEventListener('input', () => {
+            const value = parseFloat(this.voltageSlider.value);
+            this.voltageInput.value = value;
+            this.voltageValue.textContent = value.toFixed(1);
+            this.updateCircuitDiagram();
+            this.solveCircuit();
+        });
+
+        this.voltageInput.addEventListener('input', () => {
+            const value = parseFloat(this.voltageInput.value);
+            if (!isNaN(value)) {
+                this.voltageSlider.value = Math.min(Math.max(value, this.voltageSlider.min), this.voltageSlider.max);
+                this.voltageValue.textContent = value.toFixed(1);
+                this.updateCircuitDiagram();
+                this.solveCircuit();
+            }
+        });
+
+        // Resistance slider and input sync
+        this.resistanceSlider.addEventListener('input', () => {
+            const value = parseFloat(this.resistanceSlider.value);
+            this.resistanceInput.value = value;
+            this.resistanceValue.textContent = value.toFixed(0);
+            this.updateCircuitDiagram();
+            this.solveCircuit();
+        });
+
+        this.resistanceInput.addEventListener('input', () => {
+            const value = parseFloat(this.resistanceInput.value);
+            if (!isNaN(value)) {
+                this.resistanceSlider.value = Math.min(Math.max(value, this.resistanceSlider.min), this.resistanceSlider.max);
+                this.resistanceValue.textContent = value.toFixed(0);
+                this.updateCircuitDiagram();
+                this.solveCircuit();
+            }
+        });
+
+        // Inductance slider and input sync
+        this.inductanceSlider.addEventListener('input', () => {
+            const value = parseFloat(this.inductanceSlider.value);
+            this.inductanceInput.value = value;
+            this.inductanceValue.textContent = value.toFixed(0);
+            this.updateCircuitDiagram();
+            this.solveCircuit();
+        });
+
+        this.inductanceInput.addEventListener('input', () => {
+            const value = parseFloat(this.inductanceInput.value);
+            if (!isNaN(value)) {
+                this.inductanceSlider.value = Math.min(Math.max(value, this.inductanceSlider.min), this.inductanceSlider.max);
+                this.inductanceValue.textContent = value.toFixed(0);
+                this.updateCircuitDiagram();
+                this.solveCircuit();
+            }
+        });
+
+        // Capacitance slider and input sync
+        this.capacitanceSlider.addEventListener('input', () => {
+            const value = parseFloat(this.capacitanceSlider.value);
+            this.capacitanceInput.value = value;
+            this.capacitanceValue.textContent = value.toFixed(1);
+            this.updateCircuitDiagram();
+            this.solveCircuit();
+        });
+
+        this.capacitanceInput.addEventListener('input', () => {
+            const value = parseFloat(this.capacitanceInput.value);
+            if (!isNaN(value)) {
+                this.capacitanceSlider.value = Math.min(Math.max(value, this.capacitanceSlider.min), this.capacitanceSlider.max);
+                this.capacitanceValue.textContent = value.toFixed(1);
+                this.updateCircuitDiagram();
+                this.solveCircuit();
+            }
         });
 
         // Method selection changes
@@ -74,19 +152,10 @@ class RLCApp {
                 }
             });
         });
-
-        // Allow Enter key to solve
-        document.addEventListener('keypress', (e) => {
-            if (e.key === 'Enter') {
-                this.solveCircuit();
-            }
-        });
     }
 
     updateCircuit() {
         this.updateCircuitDiagram();
-        // Clear previous results when circuit type changes
-        this.clearResults();
     }
 
     updateCircuitDiagram() {
@@ -111,14 +180,14 @@ class RLCApp {
         const C = parseFloat(this.capacitanceInput.value);
         const type = this.circuitTypeSelect.value;
 
-        // Validate inputs
+        // Validate inputs - silently return if invalid for real-time solving
         if (isNaN(V) || isNaN(R) || isNaN(L) || isNaN(C)) {
-            alert('Please enter valid numbers for all parameters');
+            console.log('Waiting for valid input values...');
             return;
         }
 
         if (R <= 0 || L <= 0 || C <= 0) {
-            alert('R, L, and C must be positive values');
+            console.log('R, L, and C must be positive values');
             return;
         }
 
@@ -141,8 +210,7 @@ class RLCApp {
             this.updatePoleLabels();
 
         } catch (error) {
-            alert('Error solving circuit: ' + error.message);
-            console.error(error);
+            console.error('Error solving circuit:', error);
         }
     }
 

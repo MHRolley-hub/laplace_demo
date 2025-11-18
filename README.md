@@ -6,8 +6,9 @@ An interactive web application for solving and visualizing RLC circuits using La
 
 ### Circuit Analysis
 - **Dual Circuit Types**: Switch between Series RLC and Parallel RLC configurations
-- **Interactive Parameters**: Adjust voltage source, resistance, inductance, and capacitance in real-time
-- **Visual Circuit Diagrams**: Auto-generated SVG circuit diagrams that update with your parameters
+- **Real-Time Solving**: Equations and graphs update instantly as you move sliders - no "solve" button needed!
+- **Interactive Parameters**: Dual control with both sliders and number inputs for precise adjustment
+- **Visual Circuit Diagrams**: Auto-generated SVG circuit diagrams centered at the top that update with your parameters
 
 ### Laplace Domain Analysis
 - **Transfer Function Calculation**: Automatic computation of H(s) for the selected circuit
@@ -31,14 +32,14 @@ Choose from four different inverse Laplace transform methods:
 ## How to Use
 
 1. **Open the Application**: Simply open `index.html` in a modern web browser
-2. **Select Circuit Type**: Choose between Series or Parallel RLC
-3. **Set Parameters**:
-   - Voltage Source (V)
-   - Resistance (Ω)
-   - Inductance (mH)
-   - Capacitance (μF)
-4. **Solve**: Click "Solve Circuit" or press Enter
-5. **Explore**: Try different solution methods and toggle pole contributions
+2. **Select Circuit Type**: Choose between Series or Parallel RLC in the top center
+3. **Adjust Parameters**: Use sliders or number inputs to set values in real-time:
+   - Voltage Source (V): 1-50V (slider) or custom value
+   - Resistance (Ω): 10-2000Ω (slider) or custom value
+   - Inductance (mH): 1-500mH (slider) or custom value
+   - Capacitance (μF): 0.1-100μF (slider) or custom value
+4. **Watch Live Updates**: Circuit diagram, equations, and graphs update automatically as you change values
+5. **Explore**: Try different solution methods and toggle individual pole contributions
 
 ## Example Values
 
