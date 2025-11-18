@@ -86,6 +86,47 @@
                     <input type="number" id="capacitance" value="10" step="0.1" min="0.01" max="1000">
                 </div>
 
+                <div class="input-signal-controls">
+                    <h4>Input Signal Type</h4>
+                    <div class="signal-options">
+                        <label>
+                            <input type="radio" name="inputSignal" value="step" checked>
+                            Step Input
+                        </label>
+                        <label>
+                            <input type="radio" name="inputSignal" value="sine">
+                            Sine Input
+                        </label>
+                        <label>
+                            <input type="radio" name="inputSignal" value="cosine">
+                            Cosine Input
+                        </label>
+                        <label>
+                            <input type="radio" name="inputSignal" value="damped_sine">
+                            Damped Sine
+                        </label>
+                    </div>
+
+                    <div id="signalParameters" style="display: none; margin-top: 15px;">
+                        <div class="control-group">
+                            <label for="signalFrequency">
+                                Frequency: <span id="frequencyValue">10</span> rad/s
+                            </label>
+                            <input type="range" id="frequencySlider" min="1" max="100" value="10" step="1">
+                            <input type="number" id="signalFrequency" value="10" step="0.1" min="0.1" max="1000">
+                        </div>
+                        <div class="control-group" id="dampingGroup" style="display: none;">
+                            <label for="signalDamping">
+                                Damping: <span id="dampingValue">2</span>
+                            </label>
+                            <input type="range" id="dampingSlider" min="0.1" max="10" value="2" step="0.1">
+                            <input type="number" id="signalDamping" value="2" step="0.1" min="0" max="50">
+                        </div>
+                    </div>
+
+                    <button id="applySignalBtn" class="apply-btn">Apply Input Signal</button>
+                </div>
+
                 <div class="pole-controls">
                     <h4>Display Options</h4>
                     <label>

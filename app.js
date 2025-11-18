@@ -35,6 +35,20 @@ class RLCApp {
         this.seriesCircuitImg = document.getElementById('seriesCircuit');
         this.parallelCircuitImg = document.getElementById('parallelCircuit');
 
+        // Input signal elements
+        this.signalRadios = document.querySelectorAll('input[name="inputSignal"]');
+        this.applySignalBtn = document.getElementById('applySignalBtn');
+        this.signalParameters = document.getElementById('signalParameters');
+        this.dampingGroup = document.getElementById('dampingGroup');
+
+        this.frequencySlider = document.getElementById('frequencySlider');
+        this.frequencyInput = document.getElementById('signalFrequency');
+        this.frequencyValue = document.getElementById('frequencyValue');
+
+        this.dampingSlider = document.getElementById('dampingSlider');
+        this.dampingInput = document.getElementById('signalDamping');
+        this.dampingValue = document.getElementById('dampingValue');
+
         // Method selection
         this.methodRadios = document.querySelectorAll('input[name="method"]');
 
@@ -146,6 +160,48 @@ class RLCApp {
                     this.updateGraph();
                 }
             });
+        });
+
+        // Input signal type changes
+        this.signalRadios.forEach(radio => {
+            radio.addEventListener('change', () => {
+                this.updateSignalParametersVisibility();
+            });
+        });
+
+        // Frequency slider and input sync
+        this.frequencySlider.addEventListener('input', () => {
+            const value = parseFloat(this.frequencySlider.value);
+            this.frequencyInput.value = value;
+            this.frequencyValue.textContent = value.toFixed(0);
+        });
+
+        this.frequencyInput.addEventListener('input', () => {
+            const value = parseFloat(this.frequencyInput.value);
+            if (!isNaN(value)) {
+                this.frequencySlider.value = Math.min(Math.max(value, this.frequencySlider.min), this.frequencySlider.max);
+                this.frequencyValue.textContent = value.toFixed(0);
+            }
+        });
+
+        // Damping slider and input sync
+        this.dampingSlider.addEventListener('input', () => {
+            const value = parseFloat(this.dampingSlider.value);
+            this.dampingInput.value = value;
+            this.dampingValue.textContent = value.toFixed(1);
+        });
+
+        this.dampingInput.addEventListener('input', () => {
+            const value = parseFloat(this.dampingInput.value);
+            if (!isNaN(value)) {
+                this.dampingSlider.value = Math.min(Math.max(value, this.dampingSlider.min), this.dampingSlider.max);
+                this.dampingValue.textContent = value.toFixed(1);
+            }
+        });
+
+        // Apply signal button
+        this.applySignalBtn.addEventListener('click', () => {
+            this.applyInputSignal();
         });
     }
 
@@ -277,6 +333,35 @@ class RLCApp {
             this.pole1Label.textContent = `Pole 1 (${poles[0].real.toFixed(4)})`;
             this.pole2Label.textContent = `Pole 2 (${poles[1].real.toFixed(4)})`;
         }
+    }
+
+    updateSignalParametersVisibility() {
+        const selectedSignal = document.querySelector('input[name="inputSignal"]:checked').value;
+
+        if (selectedSignal === 'step') {
+            this.signalParameters.style.display = 'none';
+        } else if (selectedSignal === 'damped_sine') {
+            this.signalParameters.style.display = 'block';
+            this.dampingGroup.style.display = 'block';
+        } else {
+            // sine or cosine
+            this.signalParameters.style.display = 'block';
+            this.dampingGroup.style.display = 'none';
+        }
+    }
+
+    applyInputSignal() {
+        const selectedSignal = document.querySelector('input[name="inputSignal"]:checked').value;
+        const frequency = parseFloat(this.frequencyInput.value);
+        const damping = parseFloat(this.dampingInput.value);
+
+        // Set the input signal type in the solver
+        this.solver.inputSignalType = selectedSignal;
+        this.solver.inputFrequency = frequency;
+        this.solver.inputDamping = damping;
+
+        // Re-solve the circuit with the new input signal
+        this.solveCircuit();
     }
 
     clearResults() {

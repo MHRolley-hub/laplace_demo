@@ -6,6 +6,10 @@ class LaplaceSolver {
         this.transferFunction = null;
         this.circuitType = 'series';
         this.method = 'partial_fractions';
+        this.inputSignalType = 'step';
+        this.inputFrequency = 10;
+        this.inputDamping = 2;
+        this.voltage = 10;
     }
 
     /**
@@ -13,6 +17,9 @@ class LaplaceSolver {
      * Transfer function: H(s) = V / (L*s^2 + R*s + 1/C)
      */
     solveSeriesRLC(V, R, L, C) {
+        // Store voltage for later use
+        this.voltage = V;
+
         // Convert to SI units
         const L_H = L / 1000; // mH to H
         const C_F = C / 1000000; // μF to F
@@ -56,6 +63,9 @@ class LaplaceSolver {
      * Transfer function for voltage: H(s) = V / (1 + sRC + s^2*LC)
      */
     solveParallelRLC(V, R, L, C) {
+        // Store voltage for later use
+        this.voltage = V;
+
         // Convert to SI units
         const L_H = L / 1000; // mH to H
         const C_F = C / 1000000; // μF to F
@@ -245,6 +255,8 @@ class LaplaceSolver {
         const r1 = this.residues[0];
         const r2 = this.residues[1];
 
+        let baseResponse;
+
         if (p1.type === 'complex') {
             // Complex poles: oscillatory response
             const alpha = p1.real;
@@ -256,16 +268,37 @@ class LaplaceSolver {
             const cosOmegaT = Math.cos(omega * t);
             const sinOmegaT = Math.sin(omega * t);
 
-            const response = expTerm * (
+            baseResponse = expTerm * (
                 2 * (r1.real * cosOmegaT - r1.imag * sinOmegaT)
             );
-
-            return response;
         } else {
             // Real poles: exponential response
-            const response = r1.real * Math.exp(p1.real * t) +
-                           r2.real * Math.exp(p2.real * t);
-            return response;
+            baseResponse = r1.real * Math.exp(p1.real * t) +
+                          r2.real * Math.exp(p2.real * t);
+        }
+
+        // Apply input signal modulation
+        return baseResponse * this.getInputSignal(t);
+    }
+
+    /**
+     * Get input signal value at time t
+     */
+    getInputSignal(t) {
+        const omega = this.inputFrequency;
+        const alpha = this.inputDamping;
+
+        switch (this.inputSignalType) {
+            case 'step':
+                return 1;
+            case 'sine':
+                return Math.sin(omega * t);
+            case 'cosine':
+                return Math.cos(omega * t);
+            case 'damped_sine':
+                return Math.exp(-alpha * t) * Math.sin(omega * t);
+            default:
+                return 1;
         }
     }
 
@@ -276,6 +309,8 @@ class LaplaceSolver {
         const pole = this.poles[poleIndex];
         const residue = this.residues[poleIndex];
 
+        let baseContribution;
+
         if (pole.type === 'complex') {
             const expTerm = Math.exp(pole.real * t);
             const cosOmegaT = Math.cos(pole.imag * t);
@@ -284,14 +319,17 @@ class LaplaceSolver {
             // For complex conjugate pairs, show the real part contribution
             if (poleIndex === 0) {
                 // First pole: positive imaginary part
-                return expTerm * (residue.real * cosOmegaT - residue.imag * sinOmegaT);
+                baseContribution = expTerm * (residue.real * cosOmegaT - residue.imag * sinOmegaT);
             } else {
                 // Second pole: negative imaginary part (conjugate)
-                return expTerm * (residue.real * cosOmegaT + residue.imag * sinOmegaT);
+                baseContribution = expTerm * (residue.real * cosOmegaT + residue.imag * sinOmegaT);
             }
         } else {
-            return residue.real * Math.exp(pole.real * t);
+            baseContribution = residue.real * Math.exp(pole.real * t);
         }
+
+        // Apply input signal modulation
+        return baseContribution * this.getInputSignal(t);
     }
 
     // Complex number operations
