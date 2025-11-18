@@ -1,0 +1,57 @@
+<svg width="600" height="300" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background -->
+  <rect width="600" height="300" fill="#ffffff"/>
+
+  <!-- Title -->
+  <text x="300" y="30" text-anchor="middle" font-size="20" font-weight="bold" fill="#333">Series RLC Circuit</text>
+
+  <!-- Voltage Source -->
+  <circle cx="80" cy="150" r="30" fill="none" stroke="#d32f2f" stroke-width="3"/>
+  <line x1="70" y1="135" x2="90" y2="135" stroke="#d32f2f" stroke-width="2"/>
+  <line x1="80" y1="125" x2="80" y2="145" stroke="#d32f2f" stroke-width="2"/>
+  <line x1="70" y1="165" x2="90" y2="165" stroke="#d32f2f" stroke-width="2"/>
+  <text x="80" y="200" text-anchor="middle" font-size="16" fill="#333">V(t)</text>
+
+  <!-- Top wire -->
+  <line x1="80" y1="120" x2="80" y2="80" stroke="#333" stroke-width="3"/>
+  <line x1="80" y1="80" x2="520" y2="80" stroke="#333" stroke-width="3"/>
+
+  <!-- Resistor -->
+  <rect x="140" y="72" width="80" height="16" fill="#f4e4c1" stroke="#333" stroke-width="2"/>
+  <text x="180" y="60" text-anchor="middle" font-size="16" fill="#333">R</text>
+
+  <!-- Inductor -->
+  <path d="M 260 80 Q 270 65 280 80 Q 290 65 300 80 Q 310 65 320 80 Q 330 65 340 80"
+        fill="none" stroke="#4a90e2" stroke-width="3"/>
+  <text x="300" y="60" text-anchor="middle" font-size="16" fill="#333">L</text>
+
+  <!-- Right wire down -->
+  <line x1="520" y1="80" x2="520" y2="220" stroke="#333" stroke-width="3"/>
+
+  <!-- Capacitor -->
+  <line x1="460" y1="205" x2="460" y2="235" stroke="#e74c3c" stroke-width="4"/>
+  <line x1="470" y1="205" x2="470" y2="235" stroke="#e74c3c" stroke-width="4"/>
+  <text x="465" y="255" text-anchor="middle" font-size="16" fill="#333">C</text>
+
+  <!-- Bottom wire -->
+  <line x1="80" y1="220" x2="450" y2="220" stroke="#333" stroke-width="3"/>
+  <line x1="480" y1="220" x2="520" y2="220" stroke="#333" stroke-width="3"/>
+
+  <!-- Wire from voltage source down -->
+  <line x1="80" y1="180" x2="80" y2="220" stroke="#333" stroke-width="3"/>
+
+  <!-- Ground symbol -->
+  <line x1="50" y1="240" x2="110" y2="240" stroke="#333" stroke-width="3"/>
+  <line x1="60" y1="250" x2="100" y2="250" stroke="#333" stroke-width="3"/>
+  <line x1="70" y1="260" x2="90" y2="260" stroke="#333" stroke-width="3"/>
+  <line x1="80" y1="220" x2="80" y2="240" stroke="#333" stroke-width="3"/>
+
+  <!-- Current direction arrow -->
+  <defs>
+    <marker id="arrowhead" markerWidth="10" markerHeight="10" refX="9" refY="3" orient="auto">
+      <polygon points="0 0, 10 3, 0 6" fill="#2ecc71"/>
+    </marker>
+  </defs>
+  <line x1="350" y1="50" x2="420" y2="50" stroke="#2ecc71" stroke-width="2" marker-end="url(#arrowhead)"/>
+  <text x="385" y="45" text-anchor="middle" font-size="14" fill="#2ecc71">I(t)</text>
+</svg>

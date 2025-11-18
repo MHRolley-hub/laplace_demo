@@ -2,14 +2,13 @@
 class RLCApp {
     constructor() {
         this.solver = new LaplaceSolver();
-        this.circuitDrawer = new CircuitDrawer('circuitSvg');
         this.graphPlotter = new GraphPlotter('responseGraph');
 
         this.initializeElements();
         this.attachEventListeners();
-        this.updateCircuit();
+        this.updateCircuitImage();
         // Initial solve with default values
-        this.solveCircuit();
+        setTimeout(() => this.solveCircuit(), 100);
     }
 
     initializeElements() {
@@ -31,6 +30,10 @@ class RLCApp {
         this.resistanceValue = document.getElementById('resistanceValue');
         this.inductanceValue = document.getElementById('inductanceValue');
         this.capacitanceValue = document.getElementById('capacitanceValue');
+
+        // Circuit images
+        this.seriesCircuitImg = document.getElementById('seriesCircuit');
+        this.parallelCircuitImg = document.getElementById('parallelCircuit');
 
         // Method selection
         this.methodRadios = document.querySelectorAll('input[name="method"]');
@@ -54,7 +57,7 @@ class RLCApp {
     attachEventListeners() {
         // Circuit type change
         this.circuitTypeSelect.addEventListener('change', () => {
-            this.updateCircuit();
+            this.updateCircuitImage();
             this.solveCircuit();
         });
 
@@ -63,7 +66,6 @@ class RLCApp {
             const value = parseFloat(this.voltageSlider.value);
             this.voltageInput.value = value;
             this.voltageValue.textContent = value.toFixed(1);
-            this.updateCircuitDiagram();
             this.solveCircuit();
         });
 
@@ -72,7 +74,6 @@ class RLCApp {
             if (!isNaN(value)) {
                 this.voltageSlider.value = Math.min(Math.max(value, this.voltageSlider.min), this.voltageSlider.max);
                 this.voltageValue.textContent = value.toFixed(1);
-                this.updateCircuitDiagram();
                 this.solveCircuit();
             }
         });
@@ -82,7 +83,6 @@ class RLCApp {
             const value = parseFloat(this.resistanceSlider.value);
             this.resistanceInput.value = value;
             this.resistanceValue.textContent = value.toFixed(0);
-            this.updateCircuitDiagram();
             this.solveCircuit();
         });
 
@@ -91,7 +91,6 @@ class RLCApp {
             if (!isNaN(value)) {
                 this.resistanceSlider.value = Math.min(Math.max(value, this.resistanceSlider.min), this.resistanceSlider.max);
                 this.resistanceValue.textContent = value.toFixed(0);
-                this.updateCircuitDiagram();
                 this.solveCircuit();
             }
         });
@@ -101,7 +100,6 @@ class RLCApp {
             const value = parseFloat(this.inductanceSlider.value);
             this.inductanceInput.value = value;
             this.inductanceValue.textContent = value.toFixed(0);
-            this.updateCircuitDiagram();
             this.solveCircuit();
         });
 
@@ -110,7 +108,6 @@ class RLCApp {
             if (!isNaN(value)) {
                 this.inductanceSlider.value = Math.min(Math.max(value, this.inductanceSlider.min), this.inductanceSlider.max);
                 this.inductanceValue.textContent = value.toFixed(0);
-                this.updateCircuitDiagram();
                 this.solveCircuit();
             }
         });
@@ -120,7 +117,6 @@ class RLCApp {
             const value = parseFloat(this.capacitanceSlider.value);
             this.capacitanceInput.value = value;
             this.capacitanceValue.textContent = value.toFixed(1);
-            this.updateCircuitDiagram();
             this.solveCircuit();
         });
 
@@ -129,7 +125,6 @@ class RLCApp {
             if (!isNaN(value)) {
                 this.capacitanceSlider.value = Math.min(Math.max(value, this.capacitanceSlider.min), this.capacitanceSlider.max);
                 this.capacitanceValue.textContent = value.toFixed(1);
-                this.updateCircuitDiagram();
                 this.solveCircuit();
             }
         });
@@ -154,21 +149,15 @@ class RLCApp {
         });
     }
 
-    updateCircuit() {
-        this.updateCircuitDiagram();
-    }
-
-    updateCircuitDiagram() {
-        const V = parseFloat(this.voltageInput.value);
-        const R = parseFloat(this.resistanceInput.value);
-        const L = parseFloat(this.inductanceInput.value);
-        const C = parseFloat(this.capacitanceInput.value);
+    updateCircuitImage() {
         const type = this.circuitTypeSelect.value;
 
         if (type === 'series') {
-            this.circuitDrawer.drawSeriesRLC(R, L, C, V);
+            this.seriesCircuitImg.style.display = 'block';
+            this.parallelCircuitImg.style.display = 'none';
         } else {
-            this.circuitDrawer.drawParallelRLC(R, L, C, V);
+            this.seriesCircuitImg.style.display = 'none';
+            this.parallelCircuitImg.style.display = 'block';
         }
     }
 
